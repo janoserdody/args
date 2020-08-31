@@ -124,9 +124,6 @@ namespace args
                     break;
                 case "Single": value = 0.0f;
                     break;
-
-                case "Double": value = 0.0d;
-                    break;
             }
 
             return value;
@@ -205,12 +202,6 @@ namespace args
                     float number_f;
                     float.TryParse(arg, out number_f);
                     value = (object)number_f;
-                    break;
-
-                case "Double":
-                    float number_d;
-                    float.TryParse(arg, out number_d);
-                    value = (object)number_d;
                     break;
             }
 

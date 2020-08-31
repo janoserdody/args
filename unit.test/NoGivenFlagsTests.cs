@@ -35,20 +35,5 @@ namespace args.tests
             // Assert
             Assert.Null(result);
         }
-
-        [Fact]
-        public void noflag()
-        {
-            // Arrange
-            string[] param = { "-f", "akarmi", "-z", "11" };
-
-            var p = GetParser(param);
-
-            // Act
-            var result = p.GetValues<string>("");
-
-            // Assert
-            Assert.Null(result);
-        }
     }
 }
