@@ -168,3 +168,8 @@ unit.test/obj/Release/unit.test.csproj.FileListAbsolute.txt
 unit.test/obj/Release/unit.test.csprojAssemblyReference.cache
 unit.test/obj/Release/unit.test.dll
 unit.test/obj/Release/unit.test.pdb
+.vs/args/v15/.suo
+.vs/args/v15/Server/sqlite3/db.lock
+.vs/args/v15/Server/sqlite3/storage.ide
+.vs/args/v15/Server/sqlite3/storage.ide-shm
+.vs/args/v15/Server/sqlite3/storage.ide-wal
