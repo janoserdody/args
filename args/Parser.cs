@@ -30,7 +30,7 @@ namespace args
 
             if (schema == null)
             {
-                Console.WriteLine("Error: this flag is not exists: " + name);
+                Console.WriteLine("Error: this flag is not exists: -" + name);
                 Environment.Exit(1);
             }
 
@@ -47,7 +47,7 @@ namespace args
 
             if (argsDict.TryGetValue(name, out returnValue))
             {
-                value = (T)returnValue;
+                 value = (T)returnValue;
             }
 
             return value; 
@@ -80,7 +80,15 @@ namespace args
 
                     keyValuePair = new KeyValuePair<string, object>(name, value);
 
-                    resultDict.Add(keyValuePair);
+                    if (!resultDict.ContainsKey(name))
+                    {
+                        resultDict.Add(keyValuePair);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error: duplicated argument: -" + name);
+                        Environment.Exit(1);
+                    }
                 }
                 else
                 {
@@ -113,6 +121,11 @@ namespace args
                     // if there is a flag = true
                     // if there is no flag = false
                 case "Boolean": value = true;
+                    break;
+                case "Single": value = 0.0f;
+                    break;
+
+                case "Double": value = 0.0d;
                     break;
             }
 
@@ -186,6 +199,18 @@ namespace args
 
                 case "Boolean":
                     value = true;
+                    break;
+
+                case "Single":
+                    float number_f;
+                    float.TryParse(arg, out number_f);
+                    value = (object)number_f;
+                    break;
+
+                case "Double":
+                    float number_d;
+                    float.TryParse(arg, out number_d);
+                    value = (object)number_d;
                     break;
             }
 
