@@ -15,15 +15,15 @@ namespace args
 
             try
             {
-                var p = new Parser(args, schemaList);
+                var parser = new Parser(args, schemaList);
 
-                Console.WriteLine("-f: " + p.GetValues<string>("f"));
+                Console.WriteLine("-f: " + parser.GetValues<string>("f"));
 
-                Console.WriteLine("-g: " + p.GetValues<int>("g"));
+                Console.WriteLine("-g: " + parser.GetValues<int>("g"));
 
-                Console.WriteLine("-h: " + p.GetValues<bool>("h"));
+                Console.WriteLine("-h: " + parser.GetValues<bool>("h"));
 
-                Console.WriteLine("-i: " + p.GetValues<float>("i"));
+                Console.WriteLine("-i: " + parser.GetValues<float>("i"));
             }
             catch (InvalidOperationException e)
             {
