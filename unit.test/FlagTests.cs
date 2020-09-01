@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using args;
 
@@ -16,7 +13,7 @@ namespace unit.test
                 new SchemaItem { Name = "f", FlagType = typeof(String) },
                 new SchemaItem { Name = "g", FlagType = typeof(Int32) },
                 new SchemaItem { Name = "h", FlagType = typeof(Boolean) },
-                new SchemaItem { Name = "i", FlagType = typeof(Int32) }};
+                new SchemaItem { Name = "i", FlagType = typeof(Single) }};
 
         var p = new Parser(param, schemaList);
 
@@ -41,11 +38,11 @@ namespace unit.test
         public void FlagInteger_ReturnsnegativeNumber()
         {
             // Arrange
-            string[] param = { "-i", "-22", "-g", "11" };
+            string[] param = { "-f", "sdfgsdf", "-g", "-22" };
             var p = GetParser(param);
 
             // Act
-            var result = p.GetValues<int>("i");
+            var result = p.GetValues<int>("g");
 
             // Assert
             Assert.Equal(-22, result);
@@ -91,6 +88,60 @@ namespace unit.test
 
             // Assert
             Assert.False(result);
+        }
+
+        [Fact]
+        public void GivenDuplicatedFlagInArgs_ThanThrowsException()
+        {
+            // Arrange
+            string[] param = { "-f", "akarmi", "-f", "fdsa" };
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => GetParser(param));
+        }
+
+        [Fact]
+        public void GivenInvalidFlag_ThanThrowsException()
+        {
+            // Arrange
+            string[] param = { "-f", "akarmi", "-x", "fdsa" };
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => GetParser(param));
+        }
+
+        [Fact]
+        public void GivenInvalidArgumentTypeOfInt32_ThanThrowsException()
+        {
+            // Arrange
+            string[] param = { "-f", "akarmi", "-g", "hgfdhgfd" };
+
+            // Assert
+            Assert.Throws<ArgumentException>(() => GetParser(param));
+        }
+
+        [Fact]
+        public void GivenInvalidArgumentTypeOfFloat_ThanThrowsException()
+        {
+            // Arrange
+            string[] param = { "-f", "akarmi", "-i", "sdfgsdfg" };
+
+            // Assert
+            Assert.Throws<ArgumentException>(() => GetParser(param));
+        }
+
+        [Fact]
+        public void GivenValidArgumentTypeOfFloat_ThanReturnsTheExpectedValueRangeOfFloatNumber()
+        {
+            // Arrange
+            string[] param = { "-f", "akarmi", "-i", "1.1" };
+            var p = GetParser(param);
+
+            // Act
+            var result = p.GetValues<float>("i");
+
+            // Assert
+            Assert.InRange(result, 1.1, 1.2);
         }
     }
 }

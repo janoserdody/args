@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace args
 {
@@ -16,17 +13,28 @@ namespace args
                 new SchemaItem { Name = "h", FlagType = typeof(Boolean) },
                 new SchemaItem { Name = "i", FlagType = typeof(Single) } };
 
-            var p = new Parser(args, schemaList);
+            try
+            {
+                var p = new Parser(args, schemaList);
 
-            Console.WriteLine("-f: " + p.GetValues<string>("f"));
+                Console.WriteLine("-f: " + p.GetValues<string>("f"));
 
-            Console.WriteLine("-g: " + p.GetValues<int>("g"));
+                Console.WriteLine("-g: " + p.GetValues<int>("g"));
 
-            Console.WriteLine("-h: " + p.GetValues<bool>("h"));
+                Console.WriteLine("-h: " + p.GetValues<bool>("h"));
 
-            Console.WriteLine("-i: " + p.GetValues<float>("i"));
-
-            Console.ReadKey();
+                Console.WriteLine("-i: " + p.GetValues<float>("i"));
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e.Message);
+                Environment.Exit(1);
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+                Environment.Exit(2);
+            }
         }
     }
 }

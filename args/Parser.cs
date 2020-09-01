@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace args
 {
@@ -30,15 +28,12 @@ namespace args
 
             if (schema == null)
             {
-                Console.WriteLine("Error: this flag is not exists: -" + name);
-                Environment.Exit(1);
+                throw new InvalidOperationException("Error: this flag is not exists: -" + name);
             }
 
             if (schema.FlagType != typeof(T))
             {
-                Console.WriteLine("Error: argument value is not correct type");
-                Console.WriteLine("correct type is: " + schema.FlagType.Name);
-                Environment.Exit(2);
+                throw new InvalidOperationException("Error: argument value is not correct type. Correct type is: " + schema.FlagType.Name);
             }
 
             T value = default(T);
@@ -47,9 +42,9 @@ namespace args
 
             if (argsDict.TryGetValue(name, out returnValue))
             {
-                 value = (T)returnValue;
+                value = (T)returnValue;
             }
-
+            
             return value; 
         }
 
@@ -86,14 +81,12 @@ namespace args
                     }
                     else
                     {
-                        Console.WriteLine("Error: duplicated argument: -" + name);
-                        Environment.Exit(1);
+                        throw new InvalidOperationException("Error: duplicated argument: -" + name);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Error: the flag is not in the schema: " + args[i]);
-                    Environment.Exit(1);
+                    throw new InvalidOperationException("Error: the flag is not in the schema: " + args[i]);
                 }
             }
             return resultDict;
@@ -186,8 +179,14 @@ namespace args
             {
                 case "Int32":
                     int number;
-                    Int32.TryParse(arg, out number);
-                    value = (object)number;
+                    if (Int32.TryParse(arg, out number))
+                    {
+                        value = (object)number;
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid type of the argument. Argument name: " + flag.Name + ", invalid type: " + type.Name);
+                    }
                     break;
 
                 case "String":
@@ -200,8 +199,14 @@ namespace args
 
                 case "Single":
                     float number_f;
-                    float.TryParse(arg, out number_f);
-                    value = (object)number_f;
+                    if (float.TryParse(arg, out number_f))
+                    {
+                        value = (object)number_f;
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid type of the argument. Argument name: " + flag.Name + ", invalid type: " + type.Name);
+                    }
                     break;
             }
 

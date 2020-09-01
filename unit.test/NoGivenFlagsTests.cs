@@ -35,5 +35,17 @@ namespace args.tests
             // Assert
             Assert.Null(result);
         }
+
+        [Fact]
+        public void GivenInvalidFlag_ThrowsException()
+        {
+            // Arrange
+            string[] param = { "-f", "akarmi", "-g", "11" };
+
+            var p = GetParser(param);
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => p.GetValues<string>("x"));
+        }
     }
 }
